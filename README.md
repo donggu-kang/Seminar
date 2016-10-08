@@ -1,7 +1,7 @@
-<b>g00.py Team Seminar Samples</b>
+g00.py Team Seminar Samples
 ==================================
 
-구피팀 정규 세미나 오픈소스 예제파일
+<b>구피팀 정규 세미나 오픈소스 예제파일</b>
 
 발표자 : 박 현기
 
