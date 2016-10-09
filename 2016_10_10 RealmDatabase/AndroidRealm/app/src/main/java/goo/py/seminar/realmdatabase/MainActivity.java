@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
 		Realm.init(this);
 		realm = Realm.getDefaultInstance();
+		// 기본 Instance를 가져옴
 
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
@@ -38,6 +39,10 @@ public class MainActivity extends AppCompatActivity {
 			public void onClick(View view) {
 
 				Cat cat = realm.where(Cat.class).equalTo("name", editTextSearch.getText().toString()).findAll().first();
+
+				// name 이 editTextSearch에 기록된 텍스트의 스트링값을 포함하는 항목만 쿼리(.equalTo("name", ...))로 뽑아서
+				// 제일 첫번째 항목(.first())을 가져옴.
+
 				textViewResult.setText(cat.getDetail());
 
 			}
@@ -50,10 +55,11 @@ public class MainActivity extends AppCompatActivity {
 				realm.executeTransaction(new Realm.Transaction() {
 					@Override
 					public void execute(Realm realm) {
-						Cat cat = realm.createObject(Cat.class);
 
-						cat.setName(editTextName.getText().toString());
-						cat.setDetail(editTextDetail.getText().toString());
+						Cat cat = realm.createObject(Cat.class); // 새 데이터 항목 생성
+
+						cat.setName(editTextName.getText().toString()); // name 행에 해당하는 변수 등록
+						cat.setDetail(editTextDetail.getText().toString()); // detail 행에 해당하는 변수 등록
 
 						Snackbar.make(view, "Database Added", Snackbar.LENGTH_LONG).show();
 					}
