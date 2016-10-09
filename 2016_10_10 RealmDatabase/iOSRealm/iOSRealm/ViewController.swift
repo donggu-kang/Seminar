@@ -24,7 +24,7 @@ class ViewController: UIViewController {
         
         print(Realm.Configuration.defaultConfiguration.fileURL!)
         // Realm 데이터 베이스 파일 위치 (로그 확인)
-    
+        
         
     }
 
