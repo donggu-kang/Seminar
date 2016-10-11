@@ -1,71 +1,72 @@
 package goo.py.seminar.realmdatabase;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import goo.py.seminar.realmdatabase.model.Cat;
 import io.realm.Realm;
 
 public class MainActivity extends AppCompatActivity {
 
-	Realm realm;
+  Realm realm;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+  @BindView(R.id.toolbar)
+  Toolbar toolbar;
+  @BindView(R.id.name)
+  EditText editTextName;
+  @BindView(R.id.detail)
+  EditText editTextDetail;
+  @BindView(R.id.search)
+  EditText editTextSearch;
+  @BindView(R.id.result)
+  EditText textViewResult;
 
-		Realm.init(this);
-		realm = Realm.getDefaultInstance();
-		// 기본 Instance를 가져옴
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
 
-		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-		setSupportActionBar(toolbar);
+    ButterKnife.bind(this);
+    Realm.init(this);
 
-		final EditText editTextName = (EditText) findViewById(R.id.name);
-		final EditText editTextDetail = (EditText) findViewById(R.id.detail);
-		final EditText editTextSearch = (EditText) findViewById(R.id.search);
+    setSupportActionBar(toolbar);
 
-		final TextView textViewResult = (TextView) findViewById(R.id.result);
+    realm = Realm.getDefaultInstance(); // 기본 Instance를 가져옴
 
-		findViewById(R.id.button_search).setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
+  }
 
-				Cat cat = realm.where(Cat.class).equalTo("name", editTextSearch.getText().toString()).findAll().first();
+  public void addDatabase(String name, String detail) {
 
-				// name 이 editTextSearch에 기록된 텍스트의 스트링값을 포함하는 항목만 쿼리(.equalTo("name", ...))로 뽑아서
-				// 제일 첫번째 항목(.first())을 가져옴.
+    Cat cat = realm.createObject(Cat.class); // 새 데이터 항목 생성
+    cat.setName(name); // name 행에 해당하는 변수 등록
+    cat.setDetail(detail); // detail 행에 해당하는 변수 등록
 
-				textViewResult.setText(cat.getDetail());
+  }
 
-			}
-		});
+  @OnClick({R.id.button_search, R.id.fab})
+  public void onClick(View view) {
+    switch (view.getId()) {
+      case R.id.button_search:
 
-		FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-		fab.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(final View view) {
-				realm.executeTransaction(new Realm.Transaction() {
-					@Override
-					public void execute(Realm realm) {
+        Cat cat = realm.where(Cat.class).equalTo("name", editTextSearch.getText().toString()).findAll().first();
+        textViewResult.setText(cat.getDetail());
 
-						Cat cat = realm.createObject(Cat.class); // 새 데이터 항목 생성
+        // name 이 editTextSearch에 기록된 텍스트의 스트링값을 포함하는 항목만 쿼리(.equalTo("name", ...))로 뽑아서
+        // 제일 첫번째 항목(.first())을 가져옴.
 
-						cat.setName(editTextName.getText().toString()); // name 행에 해당하는 변수 등록
-						cat.setDetail(editTextDetail.getText().toString()); // detail 행에 해당하는 변수 등록
+        break;
+      case R.id.fab:
 
-						Snackbar.make(view, "Database Added", Snackbar.LENGTH_LONG).show();
-					}
-				});
-			}
-		});
+        realm.executeTransaction(realm ->
+            addDatabase(editTextName.getText().toString(), editTextDetail.getText().toString()));
 
-	}
+        break;
+    }
+  }
 }

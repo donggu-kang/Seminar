@@ -8,22 +8,22 @@ import io.realm.RealmObject;
 
 public class Cat extends RealmObject {
 
-	String name, detail;
+  String name, detail;
 
-	public String getDetail() {
-		return detail;
-	}
+  public String getDetail() {
+    return detail;
+  }
 
-	public String getName() {
-		return name;
-	}
+  public String getName() {
+    return name;
+  }
 
-	public void setDetail(String detail) {
-		this.detail = detail;
-	}
+  public void setDetail(String detail) {
+    this.detail = detail;
+  }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+  public void setName(String name) {
+    this.name = name;
+  }
 
 }
