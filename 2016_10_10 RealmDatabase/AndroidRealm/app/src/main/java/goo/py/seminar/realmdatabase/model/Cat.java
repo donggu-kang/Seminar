@@ -10,20 +10,19 @@ public class Cat extends RealmObject {
 
   String name, detail;
 
-  public String getDetail() {
-    return detail;
-  }
-
   public String getName() {
     return name;
   }
 
-  public void setDetail(String detail) {
-    this.detail = detail;
+  public String getDetail() {
+    return detail;
   }
 
   public void setName(String name) {
     this.name = name;
   }
 
+  public void setDetail(String detail) {
+    this.detail = detail;
+  }
 }

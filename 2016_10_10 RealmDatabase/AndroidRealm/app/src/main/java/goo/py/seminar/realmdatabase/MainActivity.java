@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -15,22 +16,23 @@ import io.realm.Realm;
 public class MainActivity extends AppCompatActivity {
 
   Realm realm;
-
   @BindView(R.id.toolbar)
   Toolbar toolbar;
+  @BindView(R.id.result)
+  TextView textViewResult;
+  @BindView(R.id.search)
+  EditText editTextSearch;
   @BindView(R.id.name)
   EditText editTextName;
   @BindView(R.id.detail)
   EditText editTextDetail;
-  @BindView(R.id.search)
-  EditText editTextSearch;
-  @BindView(R.id.result)
-  EditText textViewResult;
+
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
+
 
     ButterKnife.bind(this);
     Realm.init(this);
